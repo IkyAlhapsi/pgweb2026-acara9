@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head><meta charset="UTF-8"><title>Form Input CCTV</title></head>
+<body>
+<h2>Form Input Data CCTV</h2>
+<form action="input.php" onsubmit="return validateForm()" method="post">
+<label for="no">Nomor Sumber:</label><br>
+<input type="text" id="no" name="no"><br>
+<label for="provinsi">Provinsi:</label><br>
+<input type="text" id="provinsi" name="provinsi"><br>
+<label for="kab_kota">Kabupaten/Kota:</label><br>
+<input type="text" id="kab_kota" name="kab_kota"><br>
+<label for="kecamatan">Kecamatan:</label><br>
+<input type="text" id="kecamatan" name="kecamatan"><br>
+<label for="kelurahan">Kelurahan:</label><br>
+<input type="text" id="kelurahan" name="kelurahan"><br>
+<label for="nama_cctv">Nama CCTV:</label><br>
+<input type="text" id="nama_cctv" name="nama_cctv" required><br>
+<label for="status">Status:</label><br>
+<input type="text" id="status" name="status"><br>
+<label for="alamat">Alamat:</label><br>
+<input type="text" id="alamat" name="alamat"><br>
+<label for="longitude">Longitude:</label><br>
+<input type="text" id="longitude" name="longitude"><br>
+<label for="latitude">Latitude:</label><br>
+<input type="text" id="latitude" name="latitude"><br>
+<br><input type="submit" value="Submit">
+</form>
+<p>Nomor sumber mengikuti atribut NO pada geoportal; ID database dibuat otomatis.</p>
+<p>Koordinat menggunakan derajat desimal dengan titik. Jika belum diketahui, kosongkan keduanya; data tersebut belum lengkap sebagai data titik.</p>
+<p id="informasi" style="color: red;"></p>
+<script>
+function validateForm() {
+    let text = "";
+    const nama = document.getElementById("nama_cctv").value.trim();
+    const no = document.getElementById("no").value.trim();
+    const longitude = document.getElementById("longitude").value.trim();
+    const latitude = document.getElementById("latitude").value.trim();
+    if (nama === "") {
+        text = "Nama CCTV wajib diisi.";
+    } else if (no !== "" && (!Number.isInteger(Number(no)) || Number(no) < 1)) {
+        text = "Nomor sumber harus berupa bilangan bulat positif.";
+    } else if ((longitude === "") !== (latitude === "")) {
+        text = "Isi longitude dan latitude secara berpasangan, atau kosongkan keduanya jika belum diketahui.";
+    } else if (longitude !== "" && (!Number.isFinite(Number(longitude)) || Number(longitude) < -180 || Number(longitude) > 180)) {
+        text = "Longitude harus berupa angka antara -180 dan 180.";
+    } else if (latitude !== "" && (!Number.isFinite(Number(latitude)) || Number(latitude) < -90 || Number(latitude) > 90)) {
+        text = "Latitude harus berupa angka antara -90 dan 90.";
+    }
+    document.getElementById("informasi").textContent = text;
+    return text === "";
+}
+</script>
+<p><a href="../index.php">Kembali ke Data CCTV</a></p>
+</body>
+</html>
